@@ -1,0 +1,10 @@
+name: f1telemetry_dart
+version: 1.0.0
+description: >-
+  A library for gathering telemetry from the F12018 video game from CodeMasters.
+author: Jay Steele <jaydsteele@gmail.com>
+homepage: https://github.com/jaydsteele/f1telemetry_dart
+executables:
+  print-laptimes: print-laptimes
+environment:
+  sdk: '>=2.0.0'
