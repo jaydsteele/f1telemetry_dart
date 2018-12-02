@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
-import '../f1telemetry.dart';
+import 'package:f1telemetry_dart/f1telemetry.dart';
 
 StreamTransformer<RawSocketEvent, Datagram> makeSocketDatagramTransformer(socket) {
   return new StreamTransformer<RawSocketEvent, Datagram>.fromHandlers(

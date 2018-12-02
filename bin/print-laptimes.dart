@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
-import '../lib/f1telemetry.dart';
+import 'package:f1telemetry_dart/f1telemetry.dart';
 
 void main() async {
   print('Listens for F12018 Laptimes and prints them to the console:');

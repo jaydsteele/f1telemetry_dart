@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
-import '../f1telemetry.dart';
+import 'package:f1telemetry_dart/f1telemetry.dart';
 
 class Packet {
 

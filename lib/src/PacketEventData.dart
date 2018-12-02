@@ -1,6 +1,5 @@
-
 import 'dart:convert';
-import '../f1telemetry.dart';
+import 'package:f1telemetry_dart/f1telemetry.dart';
 
 class PacketEventData extends Packet {
 

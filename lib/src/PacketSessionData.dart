@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 import 'dart:math';
-import '../f1telemetry.dart';
+import 'package:f1telemetry_dart/f1telemetry.dart';
 
 class PacketSessionData extends Packet {
 
