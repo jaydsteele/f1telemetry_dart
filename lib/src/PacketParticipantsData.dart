@@ -1,27 +1,31 @@
 import 'dart:typed_data';
 import 'dart:convert';
-import 'dart:math';
 import 'package:f1telemetry_dart/f1telemetry.dart';
 
 class PacketParticipantsData extends Packet {
 
-  static const PREFIX_SIZE_IN_BYTES = 1;
+  static const prefixSizeInBytes = 1;
 
-  static const MAX_CARS = 20;
-
-  List<ParticipantData> _participants = new List<ParticipantData>();
-
-  PacketParticipantsData(PacketHeader header) : super(header) {
-    for (int i=0; i<numCars; i++) {
-      int offset = PacketHeader.sizeInBytes + PREFIX_SIZE_IN_BYTES + ParticipantData.sizeInBytes * i;
-      ByteData subData = ByteData.view(header.data.buffer, offset, ParticipantData.sizeInBytes);
-      _participants.add(new ParticipantData(subData));
-    }
-  }
+  PacketParticipantsData(PacketHeader header) : super(header);
 
   int get numCars { return data.getUint8(0); }
 
-  List<ParticipantData> get participants { return _participants; }
+  ParticipantData operator [](int index) {
+    ByteData data = ByteData.view(
+      header.data.buffer,
+      PacketHeader.sizeInBytes + prefixSizeInBytes + ParticipantData.sizeInBytes * index,
+      ParticipantData.sizeInBytes
+    );
+    return new ParticipantData(data);
+  }
+
+  int get length {
+    return numCars;
+  }
+
+  ParticipantData get playerParticipantData {
+    return this[header.playerCarIndex];
+  }
 
   String toString() {
     StringBuffer result = new StringBuffer();
@@ -29,8 +33,8 @@ class PacketParticipantsData extends Packet {
     result.writeln('PacketParticipantsData {');
     result.writeln('  numCars: ${numCars}');
     result.writeln('  Participants {');
-    for (int i=0; i<min(numCars, MAX_CARS); i++) {
-      result.write('${participants[i]}');
+    for (int i=0; i<numCars; i++) {
+      result.write('${this[i]}');
     }
     result.writeln('  }');
     result.writeln('}');
