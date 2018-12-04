@@ -22,7 +22,7 @@ void printLapTimes() async {
         if (packet != null) {
           if (packet.runtimeType == PacketLapData) {
             PacketLapData packetLapData = packet as PacketLapData;
-            final newLapTime = packetLapData.lapData[packet.header.playerCarIndex].lastLapTime;
+            final newLapTime = packetLapData[packet.header.playerCarIndex].lastLapTime;
             if (newLapTime != lastLapTime) {
               lastLapTime = newLapTime;
               print('Lap time = ${newLapTime}');
