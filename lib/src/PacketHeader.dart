@@ -23,8 +23,8 @@ class PacketHeader {
   /// The [Packet] version number
   int get packetVersion => data.getUint8(2);
 
-  /// The [PacketId] for this [Packet]
-  PacketId get packetId => parsePacketId(data.getUint8(3));
+  /// The id for this [Packet]
+  int get packetId => data.getUint8(3);
 
   /// The UID for the session
   int get sessionUID => data.getUint64(4, Endian.host);
@@ -43,19 +43,19 @@ class PacketHeader {
   Packet getPacket() {
     Packet result = null;
     switch(this.packetId) {
-      case PacketId.Event:
+      case PacketId.event:
         result = new PacketEventData(this);
         break;
-      case PacketId.Session:
+      case PacketId.session:
         result = new PacketSessionData(this);
         break;
-      case PacketId.Participants:
+      case PacketId.participants:
         result = new PacketParticipantsData(this);
         break;
-      case PacketId.Lap:
+      case PacketId.lap:
         result = new PacketLapData(this);
         break;
-      case PacketId.CarTelemetry:
+      case PacketId.carTelemetry:
         result = new PacketCarTelemetryData(this);
         break;
       default:

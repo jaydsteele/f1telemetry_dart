@@ -68,24 +68,24 @@ class ParticipantData {
   int get aiControlled => data.getUint8(0);
 
   /// Driver id
-  int get driverId => data.getUint8(1); // TODO: enum
+  int get driverId => data.getUint8(1);
 
   /// Team id
-  int get teamId => data.getUint8(2); // TODO: enum
+  int get teamId => data.getUint8(2);
 
   /// Race number of the car
   int get raceNumber => data.getUint8(3);
 
   /// Nationality of the driver
-  int get nationality => data.getUint8(4); // TODO: enum
+  int get nationality => data.getUint8(4);
 
   /// Name of participant.
   ///
   /// Will be truncated with … (U+2026) if too long
   String get name {
     if (_name == null) {
-      // TODO: Try to do this a better way, using raw views - for some reason
-      // I could only get this working like this.
+      // TODO: Try to do this a better way, using raw views
+      // for some reason I could only get this working like this.
       List<int> chars = new List<int>();
       for (int i=0; i<48; i++) {
         if (data.getUint8(i+5) == 0) break;

@@ -7,5 +7,4 @@ export 'src/PacketParticipantsData.dart';
 export 'src/PacketSessionData.dart';
 export 'src/PacketCarTelemetryData.dart';
 export 'src/transformers.dart';
-export 'src/enums/PacketId.dart';
-export 'src/enums/Weather.dart';
+export 'src/IDs.dart';

@@ -23,7 +23,9 @@ class PacketSessionData extends Packet {
   }
 
   /// Weather
-  Weather get weather => parseWeather(data.getUint8(0));
+  ///
+  /// See [Weather]
+  int get weather => data.getUint8(0);
 
   /// Track temp. in degrees celsius
   int get trackTemperature => data.getInt8(1);
@@ -39,10 +41,8 @@ class PacketSessionData extends Packet {
 
   /// The session type
   ///
-  /// 0 = unknown, 1 = P1, 2 = P2, 3 = P3, 4 = Short P
-  /// 5 = Q1, 6 = Q2, 7 = Q3, 8 = Short Q, 9 = OSQ
-  /// 10 = R, 11 = R2, 12 = Time Trial
-  int get sessionType => data.getUint8(6); // TODO: enum
+  /// See [SessionType]
+  int get sessionType => data.getUint8(6);
 
   /// The track ID
   ///
