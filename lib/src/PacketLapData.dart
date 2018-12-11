@@ -111,11 +111,13 @@ class LapData {
   int get gridPosition => data.getUint8(38);
 
   /// Status of driver
-  // TODO: enum
+  /// Status of driver - 0 = in garage, 1 = flying lap
+  /// 2 = in lap, 3 = out lap, 4 = on track
   int get driverStatus => data.getUint8(39);
 
   /// Result status
-  // TODO: enum
+  /// Result status - 0 = invalid, 1 = inactive, 2 = active
+  /// 3 = finished
   int get resultStatus => data.getUint8(40);
 
   // String reprentation
