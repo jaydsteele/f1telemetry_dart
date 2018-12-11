@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:f1telemetry_dart/f1telemetry.dart';
 
+/// Transform socket data from a [RawSocketEvent] to a [Datagram] stream
 StreamTransformer<RawSocketEvent, Datagram> makeSocketDatagramTransformer(socket) {
   return new StreamTransformer<RawSocketEvent, Datagram>.fromHandlers(
     handleData: (RawSocketEvent value, sink) {
@@ -11,6 +12,7 @@ StreamTransformer<RawSocketEvent, Datagram> makeSocketDatagramTransformer(socket
   );
 }
 
+/// Convert a Datagram to an F12018 packet stream
 StreamTransformer<Datagram, Packet> makePacketTransformer(PacketContext packetContext) {
   return new StreamTransformer<Datagram, Packet>.fromHandlers(
     handleData: (Datagram datagram, sink) {

@@ -2,27 +2,31 @@ import 'dart:typed_data';
 import 'dart:convert';
 import 'package:f1telemetry_dart/f1telemetry.dart';
 
+/// The [Packet] container for participant data for all cars on track.
 class PacketParticipantsData extends Packet {
 
-  static const prefixSizeInBytes = 1;
+  // The number of bytes preceeding the start of the array of participants
+  static const _prefixSizeInBytes = 1;
 
   PacketParticipantsData(PacketHeader header) : super(header);
 
-  int get numCars { return data.getUint8(0); }
+  /// The number of cars
+  int get numCars => data.getUint8(0);
 
+  /// Get the [ParticipantData] object for car at the specified index
   ParticipantData operator [](int index) {
     ByteData data = ByteData.view(
       header.data.buffer,
-      PacketHeader.sizeInBytes + prefixSizeInBytes + ParticipantData.sizeInBytes * index,
+      PacketHeader.sizeInBytes + _prefixSizeInBytes + ParticipantData.sizeInBytes * index,
       ParticipantData.sizeInBytes
     );
     return new ParticipantData(data);
   }
 
-  int get length {
-    return numCars;
-  }
+  /// The number of cars (alias for numCars)
+  int get length => numCars;
 
+  /// The the [ParticipantData] object for the player's car
   ParticipantData get playerParticipantData {
     return this[header.playerCarIndex];
   }
@@ -42,28 +46,42 @@ class PacketParticipantsData extends Packet {
   }
 }
 
+/// The wrapper around a block of [ByteData] representing the data
+/// for a single race participant.
 class ParticipantData {
 
-  static final Utf8Codec utf8codec = new Utf8Codec();
+  // For generating a string from UTF-8 encoded bytes
+  static final Utf8Codec _utf8codec = new Utf8Codec();
 
+  /// The size of this object in bytes
   static const sizeInBytes = 53;
 
+  /// The raw data representing this object
   ByteData data;
 
+  // The converted name from utf8 bytes
   String _name;
 
   ParticipantData(this.data);
 
-  int get aiControlled { return data.getUint8(0); }
+  /// Whether the vehicle is AI (1) or Human (0) controlled
+  int get aiControlled => data.getUint8(0);
 
-  int get driverId { return data.getUint8(1); } // TODO: enum
+  /// Driver id
+  int get driverId => data.getUint8(1); // TODO: enum
 
-  int get teamId { return data.getUint8(2); } // TODO: enum
+  /// Team id
+  int get teamId => data.getUint8(2); // TODO: enum
 
-  int get raceNumber { return data.getUint8(3); }
+  /// Race number of the car
+  int get raceNumber => data.getUint8(3);
 
-  int get nationality { return data.getUint8(4); } // TODO: enum
+  /// Nationality of the driver
+  int get nationality => data.getUint8(4); // TODO: enum
 
+  /// Name of participant.
+  ///
+  /// Will be truncated with … (U+2026) if too long
   String get name {
     if (_name == null) {
       // TODO: Try to do this a better way, using raw views - for some reason
@@ -73,7 +91,7 @@ class ParticipantData {
         if (data.getUint8(i+5) == 0) break;
         chars.add(data.getUint8(i+5));
       }
-      _name = utf8codec.decode(chars);
+      _name = _utf8codec.decode(chars);
     }
     return _name;
   }

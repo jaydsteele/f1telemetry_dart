@@ -3,6 +3,7 @@ enum PacketId {
   Motion, Session, Lap, Event, Participants, CarSetups, CarTelemetry, CarStatus
 }
 
+/// Parse a packet id value and convert it to a PacketId enum value
 PacketId parsePacketId(int value) {
   switch(value) {
     case 0: return PacketId.Motion;

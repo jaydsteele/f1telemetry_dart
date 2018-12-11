@@ -2,59 +2,95 @@ import 'dart:typed_data';
 import 'dart:math';
 import 'package:f1telemetry_dart/f1telemetry.dart';
 
+/// The [Packet] container for information about the current session.
 class PacketSessionData extends Packet {
 
-  static const PRE_MARSHAL_ZONE_SIZE_IN_BYTES = 19;
+  // The number of bytes preceeding the array of marshall zones
+  static const _preMarshalZoneSizeInBytes = 19;
 
-  static const MAX_MARSHAL_ZONES = 21;
+  // The maximum number of marshall zones
+  static const _maxMarshallZones = 21;
 
+  // The pre-constructed list of marshall zone objects
   List<MarshallZone> _marshalZones = new List<MarshallZone>();
 
   PacketSessionData(PacketHeader header) : super(header) {
-    for (int i=0; i<MAX_MARSHAL_ZONES; i++) {
-      int offset = PacketHeader.sizeInBytes + PRE_MARSHAL_ZONE_SIZE_IN_BYTES + MarshallZone.sizeInBytes * i;
+    for (int i=0; i<_maxMarshallZones; i++) {
+      int offset = PacketHeader.sizeInBytes + _preMarshalZoneSizeInBytes + MarshallZone.sizeInBytes * i;
       ByteData mzData = ByteData.view(header.data.buffer, offset, MarshallZone.sizeInBytes);
       _marshalZones.add(new MarshallZone(mzData));
     }
   }
 
-  Weather get weather { return parseWeather(data.getUint8(0)); }
+  /// Weather
+  Weather get weather => parseWeather(data.getUint8(0));
 
-  int get trackTemperature { return data.getInt8(1); }
+  /// Track temp. in degrees celsius
+  int get trackTemperature => data.getInt8(1);
 
-  int get airTemperature { return data.getInt8(2); }
+  /// Air temp. in degrees celsius
+  int get airTemperature => data.getInt8(2);
 
-  int get totalLaps { return data.getUint8(3); }
+  /// Total number of laps in this race
+  int get totalLaps => data.getUint8(3);
 
-  int get trackLength { return data.getUint16(4, Endian.host); }
+  /// Track length in metres
+  int get trackLength => data.getUint16(4, Endian.host);
 
-  int get sessionType { return data.getUint8(6); }
+  /// The session type
+  ///
+  /// 0 = unknown, 1 = P1, 2 = P2, 3 = P3, 4 = Short P
+  /// 5 = Q1, 6 = Q2, 7 = Q3, 8 = Short Q, 9 = OSQ
+  /// 10 = R, 11 = R2, 12 = Time Trial
+  int get sessionType => data.getUint8(6); // TODO: enum
 
-  int get trackId { return data.getInt8(7); } // TODO: enum
+  /// The track ID
+  ///
+  /// -1 for unknown, 0-21 for tracks
+  int get trackId => data.getInt8(7);
 
-  int get era { return data.getUint8(8); } // TODO: enum
+  /// The racing era
+  ///
+  /// 0 = modern, 1 = classic
+  int get era => data.getUint8(8); // TODO: enum
 
-  int get sessionTimeLeft { return data.getUint16(9, Endian.host); }
+  /// Time left in session in seconds
+  int get sessionTimeLeft => data.getUint16(9, Endian.host);
 
-  int get sessionDuration { return data.getUint16(11, Endian.host); }
+  /// Session duration in seconds
+  int get sessionDuration => data.getUint16(11, Endian.host);
 
-  int get pitSpeedLimit { return data.getUint8(13); }
+  /// Pit speed limit in kilometres per hour
+  int get pitSpeedLimit => data.getUint8(13);
 
-  int get gamePaused { return data.getUint8(14); }
+  /// Whether the game is paused
+  int get gamePaused => data.getUint8(14);
 
-  int get isSpectating { return data.getUint8(15); }
+  /// Whether the player is spectating
+  int get isSpectating => data.getUint8(15);
 
-  int get spectatorCarIndex { return data.getUint8(16); }
+  /// Index of the car being spectated
+  int get spectatorCarIndex => data.getUint8(16);
 
-  int get sliProNativeSupport { return data.getUint8(17); }
+  /// SLI Pro support, 0 = inactive, 1 = active
+  int get sliProNativeSupport => data.getUint8(17);
 
-  int get numMarshalZones { return data.getUint8(18); }
+  /// Number of marshal zones to follow
+  int get numMarshalZones => data.getUint8(18);
 
-  List<MarshallZone> get marshalZones { return _marshalZones; } // TODO: Don't use a list here - simply return the object dynamically by index
+  /// List of marshal zones – max 21
+  List<MarshallZone> get marshalZones => _marshalZones; // TODO: Don't use a list here - simply return the object dynamically by index
 
-  int get safetyCarStatus { return data.getUint8(19+MarshallZone.sizeInBytes*MAX_MARSHAL_ZONES); } // TODO: enum
+  /// Status of the safety car
+  ///
+  /// 0 = no safety car, 1 = full safety car
+  /// 2 = virtual safety car
+  int get safetyCarStatus => data.getUint8(19+MarshallZone.sizeInBytes*_maxMarshallZones); // TODO: enum
 
-  int get networkGame { return data.getUint8(20+MarshallZone.sizeInBytes*MAX_MARSHAL_ZONES); }
+  /// Network game status
+  ///
+  /// 0 = offline, 1 = online
+  int get networkGame => data.getUint8(20+MarshallZone.sizeInBytes*_maxMarshallZones);
 
   String toString() {
     StringBuffer result = new StringBuffer();
@@ -77,7 +113,7 @@ class PacketSessionData extends Packet {
     result.writeln('  sliProNativeSupport: ${sliProNativeSupport}');
     result.writeln('  numMarshalZones: ${numMarshalZones}');
     result.writeln('  marshalZones: {');
-    for (int i=0; i<min(numMarshalZones, MAX_MARSHAL_ZONES); i++) {
+    for (int i=0; i<min(numMarshalZones, _maxMarshallZones); i++) {
       result.writeln('${marshalZones[i]}');
     }
     result.writeln('  }');
@@ -88,17 +124,22 @@ class PacketSessionData extends Packet {
   }
 }
 
+/// The object wrapper for a marshall zone
 class MarshallZone {
 
+  /// The size of the data for object in bytes
   static const sizeInBytes = 5;
 
+  /// The [ByteData] object for this object
   ByteData data;
 
   MarshallZone(this.data);
 
-  double get zoneStart { return data.getFloat32(0, Endian.host); }
+  /// Fraction (0..1) of way through the lap the marshal zone starts
+  double get zoneStart => data.getFloat32(0, Endian.host);
 
-  int get zoneFlag { return data.getInt8(4); }
+  // -1 = invalid/unknown, 0 = none, 1 = green, 2 = blue, 3 = yellow, 4 = red
+  int get zoneFlag => data.getInt8(4);
 
   String toString() {
     return '    MarshallZone { zoneStart: ${zoneStart}, zoneFlag: ${zoneFlag} }';

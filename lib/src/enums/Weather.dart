@@ -1,7 +1,9 @@
+/// An enum representing the weather conditions in a SessionData packet
 enum Weather {
   Clear, LightCloud, Overcast, LightRain, HeavyRain, Storm
 }
 
+/// Parse a weather value and convert it to a Weather enum value
 Weather parseWeather(int value) {
   switch(value) {
     case 0: return Weather.Clear;

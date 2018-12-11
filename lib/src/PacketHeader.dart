@@ -1,28 +1,45 @@
 import 'dart:typed_data';
 import 'package:f1telemetry_dart/f1telemetry.dart';
 
+/// The header that prefixes every [Packet] in an F12018 telemetry stream.
 class PacketHeader {
 
+  /// The number of bytes used by a Packet object in the data stream
   static const sizeInBytes = 21;
+
+  /// The ByteData wrapper used to reference the data
   ByteData data;
+
+  /// A reference to the PacketContext object, which provides access to the
+  /// last received Packets of different types.
   PacketContext context;
 
+  /// Construct a PacketHeader object with a data object and context.
   PacketHeader(this.data, this.context);
 
-  int get packetFormat { return data.getUint16(0, Endian.host); }
+  /// The [Packet] format identifier (e.g. 2018 for F12018)
+  int get packetFormat => data.getUint16(0, Endian.host);
 
-  int get packetVersion { return data.getUint8(2); }
+  /// The [Packet] version number
+  int get packetVersion => data.getUint8(2);
 
-  PacketId get packetId { return parsePacketId(data.getUint8(3)); }
+  /// The [PacketId] for this [Packet]
+  PacketId get packetId => parsePacketId(data.getUint8(3));
 
-  int get sessionUID { return data.getUint64(4, Endian.host); }
+  /// The UID for the session
+  int get sessionUID => data.getUint64(4, Endian.host);
 
-  double get sessionTime { return data.getFloat32(12, Endian.host); }
+  /// The session time, in seconds
+  double get sessionTime => data.getFloat32(12, Endian.host);
 
-  int get frameIdentifier { return data.getUint32(16, Endian.host); }
+  /// The frame identifier
+  int get frameIdentifier => data.getUint32(16, Endian.host);
 
-  int get playerCarIndex { return data.getUint8(20); }
+  /// The index of the player car in player car lists (e.g. [PacketParticipantsData]
+  /// and [PacketCarTelemetryData])
+  int get playerCarIndex => data.getUint8(20);
 
+  /// Create the [Packet] object that this [PacketHeader] represents.
   Packet getPacket() {
     Packet result = null;
     switch(this.packetId) {

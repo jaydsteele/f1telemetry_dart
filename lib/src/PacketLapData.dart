@@ -1,14 +1,14 @@
 import 'dart:typed_data';
 import 'package:f1telemetry_dart/f1telemetry.dart';
 
-/// The Packet container for Lap Data, a snapshot of Lap information for all
+/// The Packet container for lap data, a snapshot of lap information for all
 /// cars on track.
 class PacketLapData extends Packet {
 
   /// Build a Packet from the PacketHeader
   PacketLapData(PacketHeader header) : super(header);
 
-  /// Retrieve the LapData object for the car at the specific index
+  /// The LapData object for the car at the specific index
   LapData operator [](int index) {
     ByteData data = ByteData.view(
       header.data.buffer,
@@ -45,7 +45,9 @@ class PacketLapData extends Packet {
   }
 }
 
-/// The LapData information for a single car. This is a data view wraping a ByteData
+/// The LapData information for a single car.
+///
+/// This is a data view wrapping a ByteData
 /// object, which is the raw bytes producted by the telemetry data stream. It provides
 /// a number of convenience functions to access the underlying information from the
 /// data stream.
@@ -62,59 +64,59 @@ class LapData {
   LapData(this.data);
 
   /// Last lap time in seconds
-  double get lastLapTime { return data.getFloat32(0, Endian.host); }
+  double get lastLapTime => data.getFloat32(0, Endian.host);
 
   /// Current time around the lap in seconds
-  double get currentLapTime { return data.getFloat32(4, Endian.host); }
+  double get currentLapTime => data.getFloat32(4, Endian.host);
 
   /// Best lap time of the session in seconds
-  double get bestLapTime { return data.getFloat32(8, Endian.host); }
+  double get bestLapTime => data.getFloat32(8, Endian.host);
 
   /// Sector 1 time in seconds
-  double get sector1Time { return data.getFloat32(12, Endian.host); }
+  double get sector1Time => data.getFloat32(12, Endian.host);
 
   /// Sector 2 time in seconds
-  double get sector2Time { return data.getFloat32(16, Endian.host); }
+  double get sector2Time => data.getFloat32(16, Endian.host);
 
   /// Distance vehicle is around current lap in metres – could
   /// be negative if line hasn’t been crossed yet
-  double get lapDistance { return data.getFloat32(20, Endian.host); }
+  double get lapDistance => data.getFloat32(20, Endian.host);
 
   /// Total distance travelled in session in metres – could
   /// be negative if line hasn’t been crossed yet
-  double get totalDistance { return data.getFloat32(24, Endian.host); }
+  double get totalDistance => data.getFloat32(24, Endian.host);
 
   /// Delta in seconds for safety car
-  double get safetyCarDelta { return data.getFloat32(28, Endian.host); }
+  double get safetyCarDelta => data.getFloat32(28, Endian.host);
 
   /// Car race position
-  int get carPosition { return data.getUint8(32); }
+  int get carPosition => data.getUint8(32);
 
   /// Current lap number
-  int get currentLapNum { return data.getUint8(33); }
+  int get currentLapNum => data.getUint8(33);
 
   /// The pit status
-  int get pitStatus { return data.getUint8(34); }
+  int get pitStatus => data.getUint8(34);
 
   /// The current sector
-  int get sector { return data.getUint8(35); }
+  int get sector => data.getUint8(35);
 
   /// Whether the current lap is invalid
-  bool get currentLapInvalid { return data.getUint8(36) == 1; }
+  bool get currentLapInvalid => data.getUint8(36) == 1;
 
   /// Accumulated time penalties in seconds to be added
-  int get penalties { return data.getUint8(37); }
+  int get penalties => data.getUint8(37);
 
   /// Grid position the vehicle started the race in
-  int get gridPosition { return data.getUint8(38); }
+  int get gridPosition => data.getUint8(38);
 
   /// Status of driver
   // TODO: enum
-  int get driverStatus { return data.getUint8(39); }
+  int get driverStatus => data.getUint8(39);
 
   /// Result status
   // TODO: enum
-  int get resultStatus { return data.getUint8(40); }
+  int get resultStatus => data.getUint8(40);
 
   // String reprentation
   String toString() {
