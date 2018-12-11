@@ -1,4 +1,6 @@
 /// The packetId of a PacketHeader
+///
+/// See [PacketHeader.packetId]
 class PacketId {
   static const int motion = 0;
   static const int session = 1;
@@ -39,6 +41,23 @@ class Weather {
   static const lightRain = 3;
   static const heavyRain = 4;
   static const storm = 5;
+}
+
+/// The current status of the safety car
+///
+/// See [PacketSessionData.safetyCarStatus]
+class SafetyCarStatus {
+  static const none = 0;
+  static const fullSafetyCar = 1;
+  static const virtualSafetyCar = 2;
+}
+
+/// The values indicating an online or offline network game
+///
+/// See [PacketSessionData.networkGameStatus]
+class NetworkGameStatus {
+  static const offline = 0;
+  static const online = 1;
 }
 
 /// TeamIDs
@@ -223,5 +242,3 @@ class Nationality {
   static const Venezuelan = 86;
   static const Welsh = 87;
 }
-
-

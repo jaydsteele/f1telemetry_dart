@@ -23,9 +23,6 @@ class PacketParticipantsData extends Packet {
     return new ParticipantData(data);
   }
 
-  /// The number of cars (alias for numCars)
-  int get length => numCars;
-
   /// The the [ParticipantData] object for the player's car
   ParticipantData get playerParticipantData {
     return this[header.playerCarIndex];

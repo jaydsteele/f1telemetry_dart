@@ -18,7 +18,7 @@ class PacketCarTelemetryData extends Packet {
   }
 
   /// The number of cars with [CarTelemetryData]
-  int get length {
+  int get numCars {
     PacketParticipantsData packetParticipantsData = header.context.get(PacketParticipantsData);
     return packetParticipantsData?.numCars ?? 0;
   }
@@ -56,7 +56,7 @@ class PacketCarTelemetryData extends Packet {
     result.write(this.header);
     result.writeln('PacketCarTelemetryData {');
     result.writeln('  CarTelemetryData {');
-    int numCars = this.length;
+    int numCars = this.numCars;
     for (int i=0; i<numCars; i++) {
       result.writeln('    ${this[i]}');
     }
@@ -99,6 +99,8 @@ class CarTelemetryData {
   /// Engine RPM
   int get engineRPM => data.getUint16(7);
 
+  /// DRS state
+  ///
   /// 0 = off, 1 = on
   int get drs => data.getUint8(9);
 

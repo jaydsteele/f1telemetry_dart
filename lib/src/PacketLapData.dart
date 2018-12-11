@@ -19,7 +19,7 @@ class PacketLapData extends Packet {
   }
 
   /// The number of LapData objects (the number of cars on track)
-  int get length {
+  int get numCars {
     PacketParticipantsData packetParticipantsData = header.context.get(PacketParticipantsData);
     return packetParticipantsData?.numCars ?? 0;
   }
@@ -35,7 +35,7 @@ class PacketLapData extends Packet {
     result.write(this.header);
     result.writeln('PacketLapData {');
     result.writeln('  LapData {');
-    int numCars = this.length;
+    int numCars = this.numCars;
     for (int i=0; i<numCars; i++) {
       result.writeln('    ${this[i]}');
     }
