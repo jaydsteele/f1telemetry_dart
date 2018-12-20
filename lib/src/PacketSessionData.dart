@@ -95,7 +95,7 @@ class PacketSessionData extends Packet {
   String toString() {
     StringBuffer result = new StringBuffer();
     result.write(this.header);
-    result.writeln('PacketSessionData {');
+    result.writeln('${PacketSessionData} {');
     result.writeln('  weather: ${weather}');
     result.writeln('  trackTemperature: ${trackTemperature}');
     result.writeln('  airTemperature: ${airTemperature}');
@@ -114,7 +114,7 @@ class PacketSessionData extends Packet {
     result.writeln('  numMarshalZones: ${numMarshalZones}');
     result.writeln('  marshalZones: {');
     for (int i=0; i<min(numMarshalZones, _maxMarshallZones); i++) {
-      result.writeln('${marshalZones[i]}');
+      result.writeln('    ${i}: ${marshalZones[i]}');
     }
     result.writeln('  }');
     result.writeln('  safetyCarStatus: ${safetyCarStatus}');
@@ -142,6 +142,6 @@ class MarshallZone {
   int get zoneFlag => data.getInt8(4);
 
   String toString() {
-    return '    MarshallZone { zoneStart: ${zoneStart}, zoneFlag: ${zoneFlag} }';
+    return '${MarshallZone} { zoneStart: ${zoneStart}, zoneFlag: ${zoneFlag} }';
   }
 }

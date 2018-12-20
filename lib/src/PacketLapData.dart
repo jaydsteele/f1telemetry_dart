@@ -33,11 +33,11 @@ class PacketLapData extends Packet {
   String toString() {
     StringBuffer result = new StringBuffer();
     result.write(this.header);
-    result.writeln('PacketLapData {');
+    result.writeln('${PacketLapData} {');
     result.writeln('  LapData {');
     int numCars = this.numCars;
     for (int i=0; i<numCars; i++) {
-      result.writeln('    ${this[i]}');
+      result.writeln('    ${i}: ${this[i]}');
     }
     result.writeln('  }');
     result.writeln('}');
@@ -123,25 +123,25 @@ class LapData {
   // String reprentation
   String toString() {
     StringBuffer result = new StringBuffer();
-    result.writeln('    ${LapData} {');
-    result.writeln('      lastLapTime: ${lastLapTime}');
-    result.writeln('      currentLapTime: ${currentLapTime}');
-    result.writeln('      bestLapTime: ${bestLapTime}');
-    result.writeln('      sector1Time: ${sector1Time}');
-    result.writeln('      sector2Time: ${sector2Time}');
-    result.writeln('      lapDistance: ${lapDistance}');
-    result.writeln('      totalDistance: ${totalDistance}');
-    result.writeln('      safetyCarDelta: ${safetyCarDelta}');
-    result.writeln('      carPosition: ${carPosition}');
-    result.writeln('      currentLapNum: ${currentLapNum}');
-    result.writeln('      pitStatus: ${pitStatus}');
-    result.writeln('      sector: ${sector}');
-    result.writeln('      currentLapInvalid: ${currentLapInvalid}');
-    result.writeln('      penalties: ${penalties}');
-    result.writeln('      gridPosition: ${gridPosition}');
-    result.writeln('      driverStatus: ${driverStatus}');
-    result.writeln('      resultStatus: ${resultStatus}');
-    result.writeln('    }');
+    result.write('${LapData} {');
+    result.write('lastLapTime: ${lastLapTime}, ');
+    result.write('currentLapTime: ${currentLapTime}, ');
+    result.write('bestLapTime: ${bestLapTime}, ');
+    result.write('sector1Time: ${sector1Time}, ');
+    result.write('sector2Time: ${sector2Time}, ');
+    result.write('lapDistance: ${lapDistance}, ');
+    result.write('totalDistance: ${totalDistance}, ');
+    result.write('safetyCarDelta: ${safetyCarDelta}, ');
+    result.write('carPosition: ${carPosition}, ');
+    result.write('currentLapNum: ${currentLapNum}, ');
+    result.write('pitStatus: ${pitStatus}, ');
+    result.write('sector: ${sector}, ');
+    result.write('currentLapInvalid: ${currentLapInvalid}, ');
+    result.write('penalties: ${penalties}, ');
+    result.write('gridPosition: ${gridPosition}, ');
+    result.write('driverStatus: ${driverStatus}, ');
+    result.write('resultStatus: ${resultStatus}, ');
+    result.write('}');
     return result.toString();
   }
 }

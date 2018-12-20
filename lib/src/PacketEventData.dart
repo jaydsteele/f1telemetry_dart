@@ -28,7 +28,7 @@ class PacketEventData extends Packet {
   String toString() {
     StringBuffer result = new StringBuffer();
     result.write(this.header);
-    result.writeln('PacketEventData {');
+    result.writeln('${PacketEventData} {');
     result.writeln('  eventStringCode: ${this.eventStringCode}');
     result.writeln('}');
     return result.toString();

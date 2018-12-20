@@ -31,11 +31,11 @@ class PacketParticipantsData extends Packet {
   String toString() {
     StringBuffer result = new StringBuffer();
     result.write(this.header);
-    result.writeln('PacketParticipantsData {');
+    result.writeln('${PacketParticipantsData} {');
     result.writeln('  numCars: ${numCars}');
     result.writeln('  Participants {');
     for (int i=0; i<numCars; i++) {
-      result.write('${this[i]}');
+      result.writeln('    ${i}: ${this[i]}');
     }
     result.writeln('  }');
     result.writeln('}');
@@ -95,14 +95,14 @@ class ParticipantData {
 
   String toString() {
     StringBuffer result = new StringBuffer();
-    result.writeln('    ParticipantData {');
-    result.writeln('      aiControlled: ${aiControlled}');
-    result.writeln('      driverId: ${driverId}');
-    result.writeln('      teamId: ${teamId}');
-    result.writeln('      raceNumber: ${raceNumber}');
-    result.writeln('      nationality: ${nationality}');
-    result.writeln('      name: ${name}');
-    result.writeln('    }');
+    result.write('${ParticipantData} {');
+    result.write('aiControlled: ${aiControlled}, ');
+    result.write('driverId: ${driverId}, ');
+    result.write('teamId: ${teamId}, ');
+    result.write('raceNumber: ${raceNumber}, ');
+    result.write('nationality: ${nationality}, ');
+    result.write('name: ${name}');
+    result.write('}');
     return result.toString();
   }
 }

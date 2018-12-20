@@ -54,11 +54,11 @@ class PacketCarTelemetryData extends Packet {
   String toString() {
     StringBuffer result = new StringBuffer();
     result.write(this.header);
-    result.writeln('PacketCarTelemetryData {');
+    result.writeln('${PacketCarTelemetryData} {');
     result.writeln('  CarTelemetryData {');
     int numCars = this.numCars;
     for (int i=0; i<numCars; i++) {
-      result.writeln('    ${this[i]}');
+      result.writeln('    ${i}: ${this[i]}');
     }
     result.writeln('  }');
     result.writeln('}');
@@ -139,17 +139,17 @@ class CarTelemetryData {
 
   String toString() {
     StringBuffer result = new StringBuffer();
-    result.writeln('  ${CarTelemetryData} {');
-    result.writeln('    speed: ${speed}');
-    result.writeln('    throttle: ${throttle}');
-    result.writeln('    steer: ${steer}');
-    result.writeln('    brake: ${brake}');
-    result.writeln('    clutch: ${clutch}');
-    result.writeln('    gear: ${gear}');
-    result.writeln('    engineRPM: ${engineRPM}');
-    result.writeln('    drs: ${drs}');
-    result.writeln('    revLightsPercent: ${revLightsPercent}');
-    result.writeln('  }');
+    result.write('${CarTelemetryData} {');
+    result.write('speed: ${speed}, ');
+    result.write('throttle: ${throttle}, ');
+    result.write('steer: ${steer}, ');
+    result.write('brake: ${brake}, ');
+    result.write('clutch: ${clutch}, ');
+    result.write('gear: ${gear}, ');
+    result.write('engineRPM: ${engineRPM}, ');
+    result.write('drs: ${drs}, ');
+    result.write('revLightsPercent: ${revLightsPercent}');
+    result.write('}');
     return result.toString();
   }
 }

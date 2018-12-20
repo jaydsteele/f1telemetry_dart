@@ -68,7 +68,7 @@ class PacketHeader {
 
   String toString() {
     StringBuffer result = new StringBuffer();
-    result.writeln('PacketHeader {');
+    result.writeln('${PacketHeader} {');
     result.writeln('  packetFormat: ${this.packetFormat}');
     result.writeln('  packetVersion: ${this.packetVersion}');
     result.writeln('  packetId: ${this.packetId}');
