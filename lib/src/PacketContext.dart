@@ -21,4 +21,9 @@ class PacketContext {
   Packet get(Type type) {
     return _packets[type];
   }
+
+  /// clear the context
+  void clear() {
+    _packets.clear();
+  }
 }
