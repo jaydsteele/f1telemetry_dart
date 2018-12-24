@@ -1,5 +1,5 @@
 name: f1telemetry_dart
-version: 1.0.0
+version: 1.0.1
 description: >-
   A library for gathering telemetry from the F12018 video game from CodeMasters.
 author: Jay Steele <jaydsteele@gmail.com>
